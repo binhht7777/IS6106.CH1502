@@ -28,7 +28,8 @@
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="11"
             app:met_primaryColor="@android:color/white"
-            app:met_singleLineEllipsis="true"/>
+            app:met_singleLineEllipsis="true"
+            android:text="0907777869"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtPassword"
@@ -43,7 +44,8 @@
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="11"
             app:met_primaryColor="@android:color/white"
-            app:met_singleLineEllipsis="true" />
+            app:met_singleLineEllipsis="true"
+            android:text="123456"/>
     </LinearLayout>
 
     <Button

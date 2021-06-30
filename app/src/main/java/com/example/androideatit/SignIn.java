@@ -76,7 +76,11 @@ public class SignIn extends AppCompatActivity {
                                 mDialog.dismiss();
                                 User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
                                 if (user.getPassword().equals(edtPassword.getText().toString())) {
-                                    Toast.makeText(SignIn.this, "thanh cong.!!!", Toast.LENGTH_SHORT).show();
+                                    // BinhPT: Luu user khi login
+                                    Intent homeIntent = new Intent(SignIn.this, Home.class);
+                                    Common.currentUser = user;
+                                    startActivity(homeIntent);
+                                    finish();
                                 } else {
                                     Toast.makeText(SignIn.this, "Wrong password.!!!", Toast.LENGTH_SHORT).show();
                                 }
