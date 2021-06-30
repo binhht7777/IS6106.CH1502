@@ -1,5 +1,6 @@
 package com.example.androideatit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -39,6 +40,7 @@ public class Home extends AppCompatActivity {
     TextView txtFullName;
     RecyclerView recycle_menu;
     RecyclerView.LayoutManager layoutManager;
+    FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
     // End: BinhPT06 - Firebase
 
     @Override
@@ -88,7 +90,7 @@ public class Home extends AppCompatActivity {
     }
 
     private void LoadMenu() {
-        FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item,MenuViewHolder.class,category) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item,MenuViewHolder.class,category) {
             @Override
             protected void populateViewHolder(MenuViewHolder menuViewHolder, Category category, int i) {
                 menuViewHolder.txtMenuName.setText(category.getName());
@@ -98,7 +100,10 @@ public class Home extends AppCompatActivity {
                 menuViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongCLick) {
-                        Toast.makeText(Home.this, "" + clickItem.getName().toString(), Toast.LENGTH_SHORT).show();
+                        // BinhPT06 - Get  categoryId and send to new activity
+                        Intent foodList = new Intent(Home.this, FoodList.class);
+                        foodList.putExtra("CategoryId", adapter.getRef(position).getKey());
+                        startActivity(foodList);
                     }
                 });
             }
