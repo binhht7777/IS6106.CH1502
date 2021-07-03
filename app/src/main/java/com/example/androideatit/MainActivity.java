@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
         btnSignUp=(Button)findViewById(R.id.btnSignUp);
         txtSlogan=(TextView)findViewById(R.id.txtSlogan);
 
-        Typeface faceSLogan = Typeface.createFromAsset(getAssets(), "fonts/Oswald-Light.ttf");
+        Typeface faceSLogan = Typeface.createFromAsset(getAssets(), "fonts/Parisienne-Regular.ttf");
         txtSlogan.setTypeface(faceSLogan);
 
-        Typeface faceBtn = Typeface.createFromAsset(getAssets(), "fonts/FjallaOne-Regular.ttf");
+        Typeface faceBtn = Typeface.createFromAsset(getAssets(), "fonts/Oswald-Medium.ttf");
         btnSignUp.setTypeface(faceBtn);
         btnSignIn.setTypeface(faceBtn);
 

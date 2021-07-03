@@ -58,7 +58,7 @@ public class Cart extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         txtTotalPrice=(TextView)findViewById(R.id.txtTotal);
         btnPlace=(Button)findViewById(R.id.btnPlaceOrder);
-        
+
         databaseHelper = new DatabaseHelper(this, "EatItDB.db", null, 1);
 
         btnPlace.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +74,7 @@ public class Cart extends AppCompatActivity {
     private void ShowAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
         alertDialog.setTitle("One more step");
-        alertDialog.setMessage("Enter your password");
+        alertDialog.setMessage("Enter your address");
         final EditText edtAddress = new EditText(Cart.this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,

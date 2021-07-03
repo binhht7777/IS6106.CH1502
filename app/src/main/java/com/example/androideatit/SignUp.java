@@ -30,7 +30,7 @@ public class SignUp extends AppCompatActivity {
         edtPassword.setTypeface(faceText);
         edtName.setTypeface(faceText);
 
-        Typeface faceBtn = Typeface.createFromAsset(getAssets(), "fonts/FjallaOne-Regular.ttf");
+        Typeface faceBtn = Typeface.createFromAsset(getAssets(), "fonts/Oswald-Medium.ttf");
         btnSignUp.setTypeface(faceBtn);
     }
     @Override

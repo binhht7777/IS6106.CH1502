@@ -32,7 +32,7 @@ public class SignIn extends AppCompatActivity {
         edtPhone.setTypeface(faceText);
         edtPassword.setTypeface(faceText);
 
-        Typeface faceBtn = Typeface.createFromAsset(getAssets(), "fonts/FjallaOne-Regular.ttf");
+        Typeface faceBtn = Typeface.createFromAsset(getAssets(), "fonts/Oswald-Medium.ttf");
         btnSignIn.setTypeface(faceBtn);
     }
     @Override

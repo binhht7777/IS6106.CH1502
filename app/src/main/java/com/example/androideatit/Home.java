@@ -2,6 +2,7 @@ package com.example.androideatit;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -28,6 +30,8 @@ import com.example.androideatit.databinding.ActivityHomeBinding;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 public class Home extends AppCompatActivity {
 
@@ -76,6 +80,27 @@ public class Home extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                int id = item.getItemId();
+                if(id == R.id.nav_home) {
+                    Intent homeIntent = new Intent(Home.this, Home.class);
+                    startActivity(homeIntent);
+                }else if(id == R.id.nav_cart){
+                    Intent cartIntent = new Intent(Home.this, Cart.class);
+                    startActivity(cartIntent);
+                }else if(id == R.id.nav_oders){
+                    Intent orderStatusIntent = new Intent(Home.this, OrderSattus.class);
+                    startActivity(orderStatusIntent);
+                }else if(id == R.id.nav_logout){
+                    Intent signInIntent = new Intent(Home.this, SignIn.class);
+                    signInIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(signInIntent);
+                }
+                return false;
+            }
+        });
         // Begin: BinhtPT06 - Set name for user
         View headerView = navigationView.getHeaderView(0);
         txtFullName=(TextView)headerView.findViewById(R.id.txtFullName);
@@ -118,6 +143,7 @@ public class Home extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {
