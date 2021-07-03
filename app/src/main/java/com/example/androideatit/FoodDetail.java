@@ -3,12 +3,15 @@ package com.example.androideatit;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.androideatit.Database.DatabaseHelper;
 import com.example.androideatit.Model.Food;
+import com.example.androideatit.Model.Order;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -17,8 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 public class FoodDetail extends AppCompatActivity {
 
@@ -31,6 +32,9 @@ public class FoodDetail extends AppCompatActivity {
     String foodId;
     FirebaseDatabase database;
     DatabaseReference foods;
+    Food currentFood;
+    DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,31 @@ public class FoodDetail extends AppCompatActivity {
         txtSum=(TextView)findViewById(R.id.txtSum);
 
         btnCart=(FloatingActionButton)findViewById(R.id.btnCart);
+
+        databaseHelper = new DatabaseHelper(this, "EatItDB.db", null, 1);
+        databaseHelper.CreateTable();
+
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                new Database(getBaseContext()).addToCart(new Order(
+//                        foodId,
+//                        currentFood.getName(),
+//                        txtSum.getText().toString(),
+//                        currentFood.getPrice(),
+//                        currentFood.getDiscount()
+//                ));
+                databaseHelper.AddToCart(new Order(
+                        foodId,
+                        currentFood.getName(),
+                        txtSum.getText().toString(),
+                        currentFood.getPrice(),
+                        currentFood.getDiscount()
+                ));
+                Toast.makeText(FoodDetail.this, "Added to cart", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         food_description=(TextView)findViewById(R.id.food_description);
         food_name=(TextView)findViewById(R.id.food_name);
         food_price=(TextView)findViewById(R.id.food_price);
@@ -67,14 +96,14 @@ public class FoodDetail extends AppCompatActivity {
         foods.child(foodId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Food food = dataSnapshot.getValue(Food.class);
+                currentFood = dataSnapshot.getValue(Food.class);
                 //set image
-                Picasso.with(getBaseContext()).load(food.getImage())
+                Picasso.with(getBaseContext()).load(currentFood.getImage())
                     .into(food_image);
-                collapsingToolbarLayout.setTitle(food.getName());
-                food_price.setText(food.getPrice());
-                food_name.setText(food.getName());
-                food_description.setText(food.getDescription());
+                collapsingToolbarLayout.setTitle(currentFood.getName());
+                food_price.setText(currentFood.getPrice());
+                food_name.setText(currentFood.getName());
+                food_description.setText(currentFood.getDescription());
             }
 
             @Override
