@@ -58,7 +58,7 @@ public class Home extends AppCompatActivity {
 
         // Begin: BinhtPT06 - Init Firebase
         database = FirebaseDatabase.getInstance();
-        category = database.getReference("Category");
+        category = database.getReference("category");
         // End: BinhtPT06 - Init Firebase
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());

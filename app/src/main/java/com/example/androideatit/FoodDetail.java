@@ -42,7 +42,7 @@ public class FoodDetail extends AppCompatActivity {
 
         // firebase
         database = FirebaseDatabase.getInstance();
-        foods = database.getReference("Foods");
+        foods = database.getReference("foods");
 
         // init view
         btnTang=(ImageButton)findViewById(R.id.btnTang);

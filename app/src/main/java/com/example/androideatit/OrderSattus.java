@@ -30,7 +30,7 @@ public class OrderSattus extends AppCompatActivity {
 
         //Firebase;
         database = FirebaseDatabase.getInstance();
-        requests = database.getReference("Requests");
+        requests = database.getReference("requests");
 
         recyclerView=(RecyclerView)findViewById(R.id.listOrders);
         recyclerView.setHasFixedSize(true);
