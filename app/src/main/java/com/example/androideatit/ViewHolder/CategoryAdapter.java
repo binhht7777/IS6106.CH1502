@@ -33,10 +33,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     List<Category> categoryList;
     List<Category> categoryListOld;
 
+    private SelectedCategory selectedCategory;
 
-    public CategoryAdapter(List<Category> categoryList) {
+
+    public CategoryAdapter(List<Category> categoryList, SelectedCategory selectedCategory) {
         this.categoryList = categoryList;
         this.categoryListOld = categoryList;
+        this.selectedCategory = selectedCategory;
     }
 
     @Override
@@ -97,6 +100,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         };
     }
 
+    public interface SelectedCategory{
+        void selectedCategory(Category categoryModel);
+
+    }
+
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
         private ImageView menuImage;
         private TextView menuName;
@@ -106,6 +114,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             menuImage=(ImageView)itemView.findViewById(R.id.menu_image);
             menuName=(TextView)itemView.findViewById(R.id.menu_name);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedCategory.selectedCategory(categoryList.get(getAdapterPosition()));
+                }
+            });
         }
     }
 }

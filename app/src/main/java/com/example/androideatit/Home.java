@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Menu;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.androideatit.Common.Common;
 import com.example.androideatit.Interface.ItemClickListener;
@@ -45,7 +46,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements CategoryAdapter.SelectedCategory {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomeBinding binding;
@@ -63,6 +64,8 @@ public class Home extends AppCompatActivity {
     CategoryAdapter categoryAdapter;
     SearchView searchView;
     List<String> suggestList = new ArrayList<>();
+    List<Category> ctegoryModelList = new ArrayList<>();
+
     // End: BinhPT06 - Firebase
 
     @Override
@@ -103,16 +106,16 @@ public class Home extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
-                if(id == R.id.nav_home) {
+                if (id == R.id.nav_home) {
                     Intent homeIntent = new Intent(Home.this, Home.class);
                     startActivity(homeIntent);
-                }else if(id == R.id.nav_cart){
+                } else if (id == R.id.nav_cart) {
                     Intent cartIntent = new Intent(Home.this, Cart.class);
                     startActivity(cartIntent);
-                }else if(id == R.id.nav_oders){
+                } else if (id == R.id.nav_oders) {
                     Intent orderStatusIntent = new Intent(Home.this, OrderSattus.class);
                     startActivity(orderStatusIntent);
-                }else if(id == R.id.nav_logout){
+                } else if (id == R.id.nav_logout) {
                     Intent signInIntent = new Intent(Home.this, SignIn.class);
                     signInIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(signInIntent);
@@ -122,22 +125,22 @@ public class Home extends AppCompatActivity {
         });
         // Begin: BinhtPT06 - Set name for user
         View headerView = navigationView.getHeaderView(0);
-        txtFullName=(TextView)headerView.findViewById(R.id.txtFullName);
+        txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
         txtFullName.setText(Common.currentUser.getName());
 
         // load menu
-        recycle_menu=(RecyclerView)findViewById(R.id.recycler_menu);
+        recycle_menu = (RecyclerView) findViewById(R.id.recycler_menu);
         recycle_menu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recycle_menu.setLayoutManager(layoutManager);
 
 
         // Khai bao 1 recyclerview moi
-        rcvCategory=findViewById(R.id.recycler_menu);
+        rcvCategory = findViewById(R.id.recycler_menu);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rcvCategory.setLayoutManager(linearLayoutManager);
 
-        categoryAdapter = new CategoryAdapter(getListCategory());
+        categoryAdapter = new CategoryAdapter(getListCategory(), this);
         rcvCategory.setAdapter(categoryAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         rcvCategory.addItemDecoration(itemDecoration);
@@ -151,9 +154,9 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot:dataSnapshot.getChildren()){
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Category category = postSnapshot.getValue(Category.class);
-                    list.add(new Category(category.getName(), category.getImage()));
+                    list.add(new Category(postSnapshot.getKey(), category.getName(), category.getImage()));
                 }
             }
 
@@ -167,9 +170,8 @@ public class Home extends AppCompatActivity {
     }
 
 
-
     private void LoadMenu() {
-        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item,MenuViewHolder.class,category) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
             @Override
             protected void populateViewHolder(MenuViewHolder menuViewHolder, Category category, int i) {
                 menuViewHolder.txtMenuName.setText(category.getName());
@@ -222,5 +224,13 @@ public class Home extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_menu);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void selectedCategory(Category categoryModel) {
+        // BinhPT06 - Get  categoryId and send to new activity
+        Intent foodList = new Intent(Home.this, FoodList.class);
+        foodList.putExtra("CategoryId", categoryModel.getCategoryId());
+        startActivity(foodList);
     }
 }
