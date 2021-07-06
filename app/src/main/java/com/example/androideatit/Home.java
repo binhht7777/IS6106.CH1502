@@ -1,39 +1,46 @@
 package com.example.androideatit;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.widget.SearchView;
+
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.androideatit.Common.Common;
 import com.example.androideatit.Interface.ItemClickListener;
 import com.example.androideatit.Model.Category;
+import com.example.androideatit.Model.Food;
+import com.example.androideatit.ViewHolder.CartAdapter;
+import com.example.androideatit.ViewHolder.CategoryAdapter;
 import com.example.androideatit.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androideatit.databinding.ActivityHomeBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.mancj.materialsearchbar.MaterialSearchBar;
-import com.squareup.picasso.Picasso;
+import com.google.firebase.database.ValueEventListener;
 
-import org.jetbrains.annotations.NotNull;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +57,12 @@ public class Home extends AppCompatActivity {
     RecyclerView recycle_menu;
     RecyclerView.LayoutManager layoutManager;
     FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
+
+    // Khai bao 1 recyclerview moi
+    RecyclerView rcvCategory;
+    CategoryAdapter categoryAdapter;
+    SearchView searchView;
+    List<String> suggestList = new ArrayList<>();
     // End: BinhPT06 - Firebase
 
     @Override
@@ -117,9 +130,43 @@ public class Home extends AppCompatActivity {
         recycle_menu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recycle_menu.setLayoutManager(layoutManager);
+
+
+        // Khai bao 1 recyclerview moi
+        rcvCategory=findViewById(R.id.recycler_menu);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rcvCategory.setLayoutManager(linearLayoutManager);
+
+        categoryAdapter = new CategoryAdapter(getListCategory());
+        rcvCategory.setAdapter(categoryAdapter);
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        rcvCategory.addItemDecoration(itemDecoration);
         LoadMenu();
         // End: BinhtPT06 - Set name for user
     }
+
+    private List<Category> getListCategory() {
+        List<Category> list = new ArrayList<Category>();
+        category.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot:dataSnapshot.getChildren()){
+                    Category category = postSnapshot.getValue(Category.class);
+                    list.add(new Category(category.getName(), category.getImage()));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
+        return list;
+    }
+
+
 
     private void LoadMenu() {
         adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item,MenuViewHolder.class,category) {
@@ -145,9 +192,27 @@ public class Home extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
-        //MaterialSearchBar search = (MaterialSearchBar) menu.findItem(R.id.searchBar);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (androidx.appcompat.widget.SearchView) menu.findItem(R.id.nav_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                categoryAdapter.getFilter().filter(query);
+                recycle_menu.setAdapter(categoryAdapter);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                categoryAdapter.getFilter().filter(newText);
+                recycle_menu.setAdapter(categoryAdapter);
+                return true;
+            }
+        });
+
         return true;
     }
 
