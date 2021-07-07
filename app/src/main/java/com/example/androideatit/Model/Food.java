@@ -1,6 +1,7 @@
 package com.example.androideatit.Model;
 
 public class Food {
+    private String FoodId;
     private String Name;
     private String Image;
     private String Description;
@@ -11,13 +12,22 @@ public class Food {
     public Food() {
     }
 
-    public Food(String name, String image, String description, String price, String discount, String menuId) {
+    public Food(String foodId, String name, String image, String description, String price, String discount, String menuId) {
+        FoodId = foodId;
         Name = name;
         Image = image;
         Description = description;
         Price = price;
         Discount = discount;
         MenuId = menuId;
+    }
+
+    public String getFoodId() {
+        return FoodId;
+    }
+
+    public void setFoodId(String foodId) {
+        FoodId = foodId;
     }
 
     public String getName() {

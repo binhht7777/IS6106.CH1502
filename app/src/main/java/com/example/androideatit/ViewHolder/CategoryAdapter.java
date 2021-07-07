@@ -11,17 +11,10 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.content.ContextWrapper;
-import android.content.Context;
-import android.widget.Toast;
 
-import androidx.navigation.ActionOnlyNavDirections;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.androideatit.Cart;
-import com.example.androideatit.FoodList;
-import com.example.androideatit.Home;
-import com.example.androideatit.Interface.ItemClickListener;
+
 import com.example.androideatit.Model.Category;
 import com.example.androideatit.R;
 import com.squareup.picasso.Picasso;

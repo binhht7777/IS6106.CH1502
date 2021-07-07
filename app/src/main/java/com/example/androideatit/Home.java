@@ -63,8 +63,6 @@ public class Home extends AppCompatActivity implements CategoryAdapter.SelectedC
     RecyclerView rcvCategory;
     CategoryAdapter categoryAdapter;
     SearchView searchView;
-    List<String> suggestList = new ArrayList<>();
-    List<Category> ctegoryModelList = new ArrayList<>();
 
     // End: BinhPT06 - Firebase
 
@@ -228,6 +226,7 @@ public class Home extends AppCompatActivity implements CategoryAdapter.SelectedC
 
     @Override
     public void selectedCategory(Category categoryModel) {
+
         // BinhPT06 - Get  categoryId and send to new activity
         Intent foodList = new Intent(Home.this, FoodList.class);
         foodList.putExtra("CategoryId", categoryModel.getCategoryId());

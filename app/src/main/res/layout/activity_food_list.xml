@@ -4,21 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_main"
     tools:context=".FoodList">
 
-    <com.mancj.materialsearchbar.MaterialSearchBar
-        android:id="@+id/searchBar"
+<!--    <com.mancj.materialsearchbar.MaterialSearchBar-->
+<!--        android:id="@+id/searchBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        tools:ignore="MissingConstraints"-->
+<!--        app:mt_speechMode="false"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        app:mt_hint="Enter your food"/>-->
+    <fragment
+        android:id="@+id/nav_host_fragment_content_menu"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        app:mt_speechMode="false"
-        android:layout_alignParentTop="true"
-        app:mt_hint="Enter your food"/>
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/mobile_navigation" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycle_food"
-        android:scrollbars="vertical"
-        android:layout_below="@+id/searchBar"/>
+        android:scrollbars="vertical"/>
+<!--        android:layout_below="@+id/searchBar"/>-->
 </RelativeLayout>
