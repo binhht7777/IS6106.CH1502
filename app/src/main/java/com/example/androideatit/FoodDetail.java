@@ -39,6 +39,7 @@ public class FoodDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_detail);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // firebase
         database = FirebaseDatabase.getInstance();

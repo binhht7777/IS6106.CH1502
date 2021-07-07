@@ -14,8 +14,14 @@
         android:theme="@style/Theme.AndroidEatIt">
         <activity android:name=".OrderSattus"></activity>
         <activity android:name=".Cart" />
-        <activity android:name=".FoodDetail" />
-        <activity android:name=".FoodList" />
+        <!-- Begin: BinhPT06 - xu ly cho back ve man hinh truoc do-->
+        <activity android:name=".FoodDetail"
+            android:parentActivityName=".FoodList">
+        </activity>
+        <activity android:name=".FoodList"
+            android:parentActivityName=".Home">
+        </activity>
+        <!-- End: BinhPT06 - xu ly cho back ve man hinh truoc do-->
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
