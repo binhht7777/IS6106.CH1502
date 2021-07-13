@@ -16,10 +16,12 @@
         <activity android:name=".Cart" />
         <!-- Begin: BinhPT06 - xu ly cho back ve man hinh truoc do-->
         <activity android:name=".FoodDetail"
-            android:parentActivityName=".FoodList">
+            android:parentActivityName=".FoodList"
+            android:label="@string/title_activity_detail">
         </activity>
         <activity android:name=".FoodList"
-            android:parentActivityName=".Home">
+            android:parentActivityName=".Home"
+            android:label="@string/title_activity_food">
         </activity>
         <!-- End: BinhPT06 - xu ly cho back ve man hinh truoc do-->
         <activity
